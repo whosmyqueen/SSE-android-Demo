@@ -11,8 +11,8 @@ import java.lang.reflect.Type;
  */
 abstract class ServiceMethodV2<T> extends ServiceMethod<T> {
 
-    static <T> ServiceMethod<T> parseAnnotationsV2(RetrofitSSE retrofit, Method method) {
-        RequestFactory requestFactory = RequestFactory.parseAnnotations(retrofit.retrofit, method);
+    static <T> ServiceMethod<T> parseAnnotationsV2(RetrofitSSE retrofit, Class<?> service, Method method) {
+        RequestFactory requestFactory = RequestFactory.parseAnnotations(retrofit.retrofit, service, method);
 
         Type returnType = method.getGenericReturnType();
         if (Utils.hasUnresolvableType(returnType)) {

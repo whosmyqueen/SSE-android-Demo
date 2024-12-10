@@ -48,7 +48,6 @@ public final class RetrofitSSE {
                         service.getClassLoader(),
                         new Class<?>[]{service},
                         new InvocationHandler() {
-                            private final Platform platform = Platform.get();
                             private final Object[] emptyArgs = new Object[0];
 
                             @Override
@@ -58,10 +57,9 @@ public final class RetrofitSSE {
                                 if (method.getDeclaringClass() == Object.class) {
                                     return method.invoke(this, args);
                                 }
-                                args = args != null ? args : emptyArgs;
-                                return platform.isDefaultMethod(method)
-                                        ? platform.invokeDefaultMethod(method, service, proxy, args)
-                                        : loadServiceMethod(method).invoke(args);
+                                return Platform.reflection.isDefaultMethod(method)
+                                        ? Platform.reflection.invokeDefaultMethod(method, service, proxy, args)
+                                        : loadServiceMethod(service, method).invoke(proxy, args);
                             }
                         });
     }
@@ -92,23 +90,22 @@ public final class RetrofitSSE {
         }
 
         if (retrofit.validateEagerly) {
-            Platform platform = Platform.get();
             for (Method method : service.getDeclaredMethods()) {
-                if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.getModifiers())) {
-                    loadServiceMethod(method);
+                if (!Platform.reflection.isDefaultMethod(method) && !Modifier.isStatic(method.getModifiers())) {
+                    loadServiceMethod(service, method);
                 }
             }
         }
     }
 
-    ServiceMethod<?> loadServiceMethod(Method method) {
+    ServiceMethod<?> loadServiceMethod(Class<?> service, Method method) {
         ServiceMethod<?> result = serviceMethodCache.get(method);
         if (result != null) return result;
 
         synchronized (serviceMethodCache) {
             result = serviceMethodCache.get(method);
             if (result == null) {
-                result = ServiceMethodV2.parseAnnotationsV2(this, method);
+                result = ServiceMethodV2.parseAnnotationsV2(this, service, method);
                 serviceMethodCache.put(method, result);
             }
         }

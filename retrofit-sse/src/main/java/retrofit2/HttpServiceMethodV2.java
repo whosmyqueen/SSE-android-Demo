@@ -80,7 +80,7 @@ abstract class HttpServiceMethodV2<ResponseT, ReturnT> extends HttpServiceMethod
         protected ReturnT adapt(retrofit2.Call<ResponseT> call, Object[] args) {
             Request request;
             try {
-                request = requestFactory.create(args);
+                request = requestFactory.create(call, args);
                 request = request.newBuilder().addHeader("Content-Type", "text/event-stream")
                         .addHeader("Accept-Encoding", "")
                         .addHeader("Accept", "text/event-stream")
