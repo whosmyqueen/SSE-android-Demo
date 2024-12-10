@@ -13,6 +13,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'maven-publish'
 }
+group = "com.github.whosmyqueen"
 
 android {
     namespace 'osp.leobert.android.mylibrary'
