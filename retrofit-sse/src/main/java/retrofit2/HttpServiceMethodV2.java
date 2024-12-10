@@ -81,9 +81,8 @@ abstract class HttpServiceMethodV2<ResponseT, ReturnT> extends HttpServiceMethod
             Request request;
             try {
                 request = requestFactory.create(call, args);
-                request = request.newBuilder().addHeader("Content-Type", "text/event-stream")
+                request = request.newBuilder()
                         .addHeader("Accept-Encoding", "")
-                        .addHeader("Accept", "text/event-stream")
                         .addHeader("Cache-Control", "no-cache")
                         .build();
             } catch (IOException e) {
