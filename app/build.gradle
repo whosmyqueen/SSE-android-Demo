@@ -42,6 +42,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp-sse:4.12.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
+//    implementation("com.github.whosmyqueen:retrofit-sse:1.0.0")
 
     implementation project(":retrofit-sse")
 
