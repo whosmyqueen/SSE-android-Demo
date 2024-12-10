@@ -1,4 +1,4 @@
-package osp.leobert.android.ssedemo
+package com.whosmyqueen.ssedemo
 
 import okhttp3.OkHttpClient
 import okhttp3.sse.EventSources

@@ -16,7 +16,7 @@ plugins {
 group = "com.github.whosmyqueen"
 version = "1.0.0"
 android {
-    namespace 'osp.leobert.android.mylibrary'
+    namespace 'com.whosmyqueen.retrofitsse'
     compileSdk 33
 
     defaultConfig {

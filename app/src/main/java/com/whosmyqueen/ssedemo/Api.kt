@@ -1,4 +1,4 @@
-package osp.leobert.android.ssedemo
+package com.whosmyqueen.ssedemo
 
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Event
