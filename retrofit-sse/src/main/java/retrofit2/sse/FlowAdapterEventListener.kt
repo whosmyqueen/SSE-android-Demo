@@ -8,13 +8,14 @@ import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import retrofit2.Event
+import retrofit2.SseEvent
 
 /**
  * Classname: FlowAdapterEventListener </p>
  * Created by Leobert on 2023/11/27.
  */
 class FlowAdapterEventListener(
-    val channel: Channel<Event>,
+    val channel: Channel<SseEvent>,
 ) : EventSourceListener() {
 
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
@@ -26,7 +27,7 @@ class FlowAdapterEventListener(
     override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
         super.onEvent(eventSource, id, type, data)
         scope.launch {
-            channel.send(Event(id, type, data))
+            channel.send(SseEvent(event = Event(id, type, data), eventSource))
         }
     }
 
@@ -34,7 +35,7 @@ class FlowAdapterEventListener(
         super.onFailure(eventSource, t, response)
         scope.launch {
             channel.send(
-                Event(null, null, "", t)
+                SseEvent(event = Event(null, null, "", t), eventSource)
             )
             channel.close(t)
         }
