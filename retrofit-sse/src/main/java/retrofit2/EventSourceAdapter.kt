@@ -14,9 +14,12 @@ import retrofit2.sse.FlowAdapterEventListener
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
+
 /**
- * Classname: EventSourceAdapter
- * Created by Leobert on 2023/11/27.
+ * 事件源适配器
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
+ * @constructor 创建[EventSourceAdapter]
  */
 interface EventSourceAdapter<T> {
     fun adapt(request: Request, factory: EventSource.Factory): T

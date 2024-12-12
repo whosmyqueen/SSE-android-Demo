@@ -5,9 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 /**
- * Classname: ServerSendEvents </p>
- * Created by Leobert on 2023/11/27.
+ * 服务器发送事件
+ *
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

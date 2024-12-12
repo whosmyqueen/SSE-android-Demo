@@ -11,8 +11,11 @@ import retrofit2.Event
 import retrofit2.SseEvent
 
 /**
- * Classname: FlowAdapterEventListener </p>
- * Created by Leobert on 2023/11/27.
+ * 流适配器事件侦听器
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
+ * @constructor 创建[FlowAdapterEventListener]
+ * @param [channel] 通道
  */
 class FlowAdapterEventListener(
     val channel: Channel<SseEvent>,

@@ -12,9 +12,12 @@ import okhttp3.Request;
 import okhttp3.ResponseBody;
 import okhttp3.sse.EventSource;
 
+
 /**
- * Classname: HttpServiceMethodV2 </p>
- * Created by Leobert on 2023/11/27.
+ * HTTP服务方法v2
+ *
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
  */
 abstract class HttpServiceMethodV2<ResponseT, ReturnT> extends HttpServiceMethod<ResponseT, ReturnT> {
 

@@ -5,9 +5,12 @@ import static retrofit2.Utils.methodError;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
+
 /**
- * Classname: ServiceMethodV2 </p>
- * Created by Leobert on 2023/11/27.
+ * 业务方法v2
+ *
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
  */
 abstract class ServiceMethodV2<T> extends ServiceMethod<T> {
 

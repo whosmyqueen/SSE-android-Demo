@@ -20,9 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.sse.EventSource;
 
+
 /**
- * Classname: RetrofitSSE </p>
- * Created by Leobert on 2023/11/27.
+ * Retrofit sse
+ *
+ * @author zhengzhihui1.vendor
+ * @date 2024/12/12
  */
 public final class RetrofitSSE {
     private final Map<Method, ServiceMethod<?>> serviceMethodCache = new ConcurrentHashMap<>();
