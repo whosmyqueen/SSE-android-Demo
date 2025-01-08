@@ -4,6 +4,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
@@ -20,7 +22,7 @@ import retrofit2.SseEvent
 class FlowAdapterEventListener(
     val channel: Channel<SseEvent>,
 ) : EventSourceListener() {
-
+    val mutex = Mutex()
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     override fun onClosed(eventSource: EventSource) {
@@ -30,17 +32,21 @@ class FlowAdapterEventListener(
     override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
         super.onEvent(eventSource, id, type, data)
         scope.launch {
-            channel.send(SseEvent(event = Event(id, type, data), eventSource))
+            mutex.withLock {
+                channel.send(SseEvent(event = Event(id, type, data), eventSource))
+            }
         }
     }
 
     override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
         super.onFailure(eventSource, t, response)
         scope.launch {
-            channel.send(
-                SseEvent(event = Event(null, null, "", t), eventSource)
-            )
-            channel.close(t)
+            mutex.withLock {
+                channel.send(
+                    SseEvent(event = Event(null, null, "", t), eventSource)
+                )
+                channel.close(t)
+            }
         }
     }
 
