@@ -6,6 +6,7 @@ import retrofit2.EventSourceAdapter
 import retrofit2.Retrofit
 import retrofit2.RetrofitSSE
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.sse.EventSourcesExt
 
 /**
  * Classname: RetrofitSSECase </p>
@@ -20,7 +21,7 @@ object RetrofitSSECase {
                 .client(okhttp3)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build(),
-            EventSources.createFactory(okhttp3)
+            EventSourcesExt.createFactory(okhttp3)
         ).addEventSourceAdapterFactory(EventSourceAdapter.FlowAdapter.Companion.Factory)
     }
 
