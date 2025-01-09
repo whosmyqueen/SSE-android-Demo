@@ -38,7 +38,7 @@ class FlowAdapterEventListener(
     override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
         super.onFailure(eventSource, t, response)
         scope.launch {
-            channel.send(Event(null, null, "", t))
+            channel.send(Event(null, null, response?.body()?.string() ?: "", t))
             channel.close(t)
         }
     }

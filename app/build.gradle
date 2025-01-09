@@ -43,7 +43,7 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
 //    implementation("com.github.whosmyqueen:SSE-android-Demo:1.0.5")
-//    implementation("com.github.whosmyqueen:retrofit-sse:1.1.2")
+    implementation("com.github.whosmyqueen:retrofit-sse:1.1.3")
     implementation project(":retrofit-sse")
 
 

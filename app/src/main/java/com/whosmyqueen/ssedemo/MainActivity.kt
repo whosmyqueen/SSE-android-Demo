@@ -32,12 +32,10 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Job()).launch {
                 RetrofitSSECase.api.word("")
                     .onEach {
-                        mutex.lock()
                         Log.d("lmsg", "$it")
                     }
                     .flowOn(Dispatchers.Main)
                     .collect() {
-                        mutex.unlock()
                     }
             }
         }
