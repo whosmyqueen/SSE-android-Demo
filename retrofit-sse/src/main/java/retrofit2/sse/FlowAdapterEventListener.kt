@@ -37,9 +37,8 @@ class FlowAdapterEventListener(
 
     override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
         scope.launch {
-            var data = ""
-            response?.body()?.bytes()?.let { data = String(it) }
-            channel.send(Event(null, null, data, t))
+            val peekBody = response?.peekBody(Long.MAX_VALUE)
+            channel.send(Event(null, null, peekBody?.string() ?: "", t))
             channel.close(t)
         }
         super.onFailure(eventSource, t, response)
