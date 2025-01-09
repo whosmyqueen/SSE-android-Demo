@@ -20,10 +20,9 @@ import retrofit2.SseEvent
  * @param [channel] 通道
  */
 class FlowAdapterEventListener(
-    val channel: Channel<SseEvent>,
+    val channel: Channel<Event>,
 ) : EventSourceListener() {
-    val mutex = Mutex()
-    private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onClosed(eventSource: EventSource) {
         super.onClosed(eventSource)
@@ -32,21 +31,15 @@ class FlowAdapterEventListener(
     override fun onEvent(eventSource: EventSource, id: String?, type: String?, data: String) {
         super.onEvent(eventSource, id, type, data)
         scope.launch {
-            mutex.withLock {
-                channel.send(SseEvent(event = Event(id, type, data), eventSource))
-            }
+            channel.send(Event(id, type, data))
         }
     }
 
     override fun onFailure(eventSource: EventSource, t: Throwable?, response: Response?) {
         super.onFailure(eventSource, t, response)
         scope.launch {
-            mutex.withLock {
-                channel.send(
-                    SseEvent(event = Event(null, null, "", t), eventSource)
-                )
-                channel.close(t)
-            }
+            channel.send(Event(null, null, "", t))
+            channel.close(t)
         }
     }
 

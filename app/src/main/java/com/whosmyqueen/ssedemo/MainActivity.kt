@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,22 +28,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.b).setOnClickListener {
+            val mutex: Mutex = Mutex()
             CoroutineScope(Job()).launch {
-                RetrofitSSECase.api.word()
-                    .flowOn(Dispatchers.IO)
+                RetrofitSSECase.api.word("")
                     .onEach {
+                        mutex.lock()
                         Log.d("lmsg", "$it")
                     }
                     .flowOn(Dispatchers.Main)
-                    .collect()
+                    .collect() {
+                        mutex.unlock()
+                    }
             }
         }
 
         findViewById<View>(R.id.c).setOnClickListener {
             MainScope().launch {
                 val obj = CoroutineScope(Job()).async {
-                        RetrofitSSECase.api.test()
-                    }.await()
+                    RetrofitSSECase.api.test()
+                }.await()
                 Log.d("lmsg", "$obj")
             }
         }

@@ -24,11 +24,11 @@ import java.lang.reflect.Type
 interface EventSourceAdapter<T> {
     fun adapt(request: Request, factory: EventSource.Factory): T
 
-    class FlowAdapter : EventSourceAdapter<Flow<SseEvent>> {
+    class FlowAdapter : EventSourceAdapter<Flow<Event>> {
 
-        override fun adapt(request: Request, factory: EventSource.Factory): Flow<SseEvent> {
+        override fun adapt(request: Request, factory: EventSource.Factory): Flow<Event> {
 
-            val channel = Channel<SseEvent>()
+            val channel = Channel<Event>()
             return channel.receiveAsFlow()
                 .shareIn(CoroutineScope(Dispatchers.IO), SharingStarted.Eagerly)
                 .onSubscription {
